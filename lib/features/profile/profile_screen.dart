@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'bank_connections_screen.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -25,10 +27,35 @@ class ProfileScreen extends StatelessWidget {
               onTap: () {},
             ),
             ListTile(
+              leading: const Icon(Icons.account_balance_outlined),
+              title: const Text('Link bank account'),
+              subtitle: const Text('Connect using Open Banking'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const BankConnectionsScreen()),
+                );
+              },
+            ),
+
+            ListTile(
               leading: const Icon(Icons.logout),
               title: const Text('Logout'),
               onTap: () => context.go('/login'),
             ),
+
+            ListTile(
+              leading: const Icon(Icons.account_balance_outlined),
+              title: const Text('Bank connections'),
+              subtitle: const Text('Link via Open Banking'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const BankConnectionsScreen()),
+                );
+              },
+            ),
+
           ],
         ),
       ),

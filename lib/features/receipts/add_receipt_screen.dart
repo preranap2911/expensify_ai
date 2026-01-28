@@ -7,6 +7,8 @@ import 'package:uuid/uuid.dart';
 import '../../models/receipt.dart';
 import '../../services/ai_service.dart';
 import '../../state/receipt_controller.dart';
+import 'review_receipt_screen.dart';
+
 
 class AddReceiptScreen extends ConsumerStatefulWidget {
   const AddReceiptScreen({super.key});
@@ -34,25 +36,20 @@ class _AddReceiptScreenState extends ConsumerState<AddReceiptScreen> {
 
     final result = await ai.extractFromReceiptImage(image!.path);
 
-    final receipt = Receipt(
-      id: const Uuid().v4(),
-      merchant: result.merchant,
-      date: result.date,
-      total: result.total,
-      category: result.category,
-      confidence: result.confidence,
-      imagePath: image!.path,
-    );
-
-    ref.read(receiptsProvider.notifier).add(receipt);
-
     if (!mounted) return;
     setState(() => loading = false);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Receipt saved ✅')),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ReviewReceiptScreen(
+          imagePath: image!.path,
+          extracted: result,
+        ),
+      ),
     );
   }
+
 
   @override
   Widget build(BuildContext context) {
